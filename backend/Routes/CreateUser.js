@@ -4,7 +4,7 @@ const router = express.Router();
 const   User = require('../models/Users');
 
 router.post('/createuser',async(req,res)=>{
-   //making static schemma/data
+   //making static schemma/dataas 
     try{
        await User.create({
             name:req.body.name,
