@@ -18,7 +18,10 @@ const colors = require("colors");
 
 const mongoDb = async () => {
   try {
+
+     mongoose.set('strictQuery', false);
     await mongoose.connect('mongodb+srv://Foody:abdul123@cluster0.arrsnrx.mongodb.net/Foody?retryWrites=true&w=majority');
+   
     console.log(`
       Connected To DATABASE(Sab changa si!) ${mongoose.connection.host}`.bgCyan.white
     );

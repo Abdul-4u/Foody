@@ -29,7 +29,8 @@ let navigate=useNavigate();
 
         if (json.success) {
           //save the auth token and redirect
-
+localStorage.setItem('authToken',json.authToken);
+console.log(localStorage.getItem('authToken'))
          navigate('/');
       }
 
