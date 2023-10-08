@@ -7,7 +7,7 @@ export default function Ccard(props) {
     return (
         <div>
             <div><div className="card mt-3" style={{ width: "18rem", "maxHeight": "360" }}>
-                <img className="card-img-top" src= {props.imgSrc}    alt="Card cap" />
+                <img className="card-img-top" src= {props.imgSrc}    alt="Card cap"  style={{ height :"120px", objectFit:"fill"}}/>
                 <div className="card-body">
                     <h5 className="card-title">{props.foodName}</h5>
                   
