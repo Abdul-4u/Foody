@@ -55,7 +55,7 @@ export default function Home() {
 
                 <div className="d-flex justify-content-center">
       <input className="form-control me-2" type="search" placeholder="Search your food here" aria-label="Search" value={search} onChange={(e)=>{setSearch(e.target.value)}}/>
-      { /*<button className="btn btn-outline-success text-white" type="submit">Search</button>*/ }
+      { /* search button lagana ho to comment hata dena <button className="btn btn-outline-success text-white" type="submit">Search</button>*/ }
 </div>
 
 
@@ -111,6 +111,8 @@ export default function Home() {
                     <span className="visually-hidden">Next</span>
                 </button>
             </div></div>
+ 
+
             <div className='container'>{
                 foodCat.length > 0
                     ? foodCat.map((data) => {
@@ -129,12 +131,13 @@ export default function Home() {
                                         .map(filterItems => {
                                             return (
                                                 <div key={filterItems._id} className='col-12 col-md-6 col-lg-3'>
-                                                    <Ccard foodName={filterItems.name}
+                                                    <Ccard  foodItem={filterItems}
+                                                    //foodName={filterItems.name}
                                                     options={filterItems.options[0]}
 
-                                                    imgSrc={filterItems.img}
+                                              // imgSrc={filterItems.img}
 
-                                                    id={filterItems._id} />
+                                                     />
                                                 </div>
                                             )
                                         })
