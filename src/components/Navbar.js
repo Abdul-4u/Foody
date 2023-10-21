@@ -1,6 +1,14 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link , useNavigate } from 'react-router-dom'
 export default function Navbar() {
+
+
+  const navigate = useNavigate();
+  const handleLogout = () => {  
+
+localStorage.removeItem('authToken');
+navigate('/llogin');
+  }
   return (
     <div>
        <nav className="navbar navbar-expand-lg navbar-dark bg-success">
@@ -10,18 +18,50 @@ export default function Navbar() {
       <span className="navbar-toggler-icon"></span>
     </button>
     <div className="collapse navbar-collapse" id="navbarNav">
-      <ul className="navbar-nav">
+      <ul className="navbar-nav me-auto mb-2">
         <li className="nav-item">
-          <Link className="nav-link " aria-current="page" to="/#">Home</Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="llogin">Login</Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="signup">Signup</Link>
+          <Link className="nav-link active fs-5" aria-current="page" to="/#">Home</Link>
         </li>
        
+
+       {(localStorage.getItem('authToken'))?
+       
+       //{for my order create new route and a new js folsder}
+       <li className="nav-item">
+       
+          <Link className="nav-link active fs-5" aria-current="page" to="/#">My Order</Link>
+        </li>
+       
+       :""
+       
+       
+       }
+       
       </ul>
+
+
+      {(!localStorage.getItem('authToken'))?
+       
+       //{for my order create new route and a new js folsder}
+       <li className="nav-item">
+       
+       <Link className="btn bg-white text-success mx-1" to="llogin">Login</Link>
+        <Link className="btn bg-white text-success mx-1" to="signup">Signup</Link>
+        </li>
+       
+       :<>
+        
+       <div  className='btn bg-white text-success mx-2'>
+cart
+       </div>
+       <div  className='btn bg-white text-danger mx-2' on onClick={handleLogout}>
+Logout
+       </div>
+       
+       
+       </>
+       }
+
     </div>
   </div>
 </nav>

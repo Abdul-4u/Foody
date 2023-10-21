@@ -5,16 +5,23 @@ const User = require('../models/Users');
 
 const { body, validationResult } = require('express-validator');
 
+
+const jwt = require('jsonwebtoken');
+
+const bcrypt = require('bcryptjs');
+
+const jwtSecret = "this is my secret key"
+
+
+
+
 router.post('/createuser',
     [body('email', 'incorrect email').isEmail(),
-    body('name', 'incorrect name').isLength({ min: 6 }),
+    body('name', 'incorrect name').isLength({ min: 5 }),
     body('passward', 'incorrect passward').isLength({ min: 4 })]
 
     , async (req, res) => {
-        console.log(req.body.name,
-            req.body.location,
-            req.body.email,
-            req.body.passward);
+
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -22,13 +29,15 @@ router.post('/createuser',
 
         }
 
+        const salt = await bcrypt.genSalt(10);
+        let secPassward = await bcrypt.hash(req.body.passward, salt)
         //making static schemma/dataas 
         try {
             await User.create({
                 name: req.body.name,
                 location: req.body.location,
                 email: req.body.email,
-                passward: req.body.passward
+                passward: secPassward
 
             }).then(res.json({ success: true }))
 
@@ -63,16 +72,22 @@ body('passward', 'incorrect passward').isLength({ min: 4 })]
             let userData = await User.findOne({ email });
             if (!userData) {
                 return res.status(400).json({ error: "Wrong email id" })
+ }
 
-
-            }
-
-            if (req.body.passward !== userData.passward) {
+            const pwdCompare = await bcrypt.compare(req.body.passward, userData.passward)
+            if (!pwdCompare) {
                 return res.status(400).json({ error: "Wrong passward" })
 
             }
 
-            return res.json({ success: true, message: "login success" })
+
+            const data = {
+                user: {
+                    id: userData.id
+                }
+            }
+            const authToken = jwt.sign(data, jwtSecret)
+            return res.json({ success: true, authToken: authToken })
         }
         catch (err) {
             console.log(err);
